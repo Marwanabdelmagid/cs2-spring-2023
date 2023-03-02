@@ -3,7 +3,7 @@
 #include <string>
 #include< cstdlib > 
 #include <time.h>
-#include "cluster.h"
+#include "clusters.h"
 
 using namespace std;
 
