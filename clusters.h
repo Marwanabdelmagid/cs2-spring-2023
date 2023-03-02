@@ -20,18 +20,18 @@ public:
         x = x1;
     }
     //getter
-    float get_x() {
+    float get_x()const {
         return x;
     }
     //setter
     void set_y(float y1) {
         y = y1;
     }
-    float get_y() {
+    float get_y() const{
         return y;
     }
     //getter
-    void displaycord() {
+    void displaycord() const{
         cout << "(" << x << "," << y << ")" << endl;
 
     }
