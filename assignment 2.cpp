@@ -3,7 +3,7 @@
 #include <string>
 #include< cstdlib > 
 #include <time.h>
-#include "Header.h"
+#include "cluster.h"
 
 using namespace std;
 
@@ -44,8 +44,8 @@ int main() {
 
     }
     //deleting cluster a and b 
-    delete ca;
-    delete cb;
+    delete [] ca;
+    delete [] cb;
 
     return 0;
 }
