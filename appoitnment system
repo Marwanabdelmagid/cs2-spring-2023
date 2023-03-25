@@ -1,0 +1,112 @@
+#include<iostream>
+#include"customer.h"
+#include"mechanic.h"
+#include"queue.h"
+
+using namespace std;
+
+int main() {
+	int nummech, id,h,m;
+	string name;
+	cout << "Enter the number of mechanics available in the shop:" << endl;
+	cin >> nummech;
+	mechanic* mech= new mechanic[nummech];
+	//Based on the assumption that a mecahnic has appointmients for 30 minutes the max number of custmers will 80(24/0.5) * number of mechanic
+	customer* cust = new customer[48 * nummech];
+	bool ide=true;
+	for (int i = 0; i < nummech; i++)
+	{
+		//Setting mechanics id and name, did not ask for age as it is not important ;
+		cout << "Enter the name of the " << i+1<< "th mechanic" << endl;
+		cin >> name;
+		mech[i].set_name(name);
+
+		do {
+			cout << "Enter " << name << " id"<<endl;
+			cin >> id;
+			//Checking if entred id is unique to mechanic
+			for (int j = 0; j < i; j++)
+				if (mech[j].get_id() == id)
+				{
+					cout << "Invalid id, used by another mechanic. " << endl << "Try again." << endl;
+					ide = false;
+					break;
+				}
+				else ide = true;
+		} while (ide == false);
+		mech[i].set_id(id);
+		
+	}
+	int numcust;
+	cout << "Enter the number of customers:" << endl;
+	cin >> numcust;
+	customer* custi = new customer[numcust];
+	for (int i = 0; i < numcust; i++)
+	{
+		cout << "Enter customer name: " << endl;
+		cin >> name;
+		custi[i].set_name(name);
+		do {
+			cout << "Enter customers id: " << endl;
+			cin >> id;
+			//Checking if entred id is unique to customer
+			for (int j = 0; j < i; j++)
+				if (custi[j].get_id() == id)
+				{
+					cout << "Invalid id, refers to another customer" << endl << "Try again." << endl;
+					ide = false;
+					break;
+				}
+				else ide = true;
+		}while (ide == false);
+		custi[i].set_id(id);
+	}
+	for (int j = 0; j < numcust; j++)
+	{
+		cout << "Enter the appoitment you want to register for " << custi[j].get_name() << ":" << endl;
+		cout<< "Time should be in this format, hours(24 hour format) followed by minutes : " << endl;
+		
+		bool found;
+		do
+		{
+			cin >> h >> m;
+			for (int i = 0; i < nummech; i++)
+			{
+				
+				if (mech[i].is_available(h, m))
+				{
+					mech[i].set_app(mech[i].get_counter(), h, m);
+					cust[j].set_custapp(h, m);
+					cust[j].set_mechid(mech[i].get_id());
+					found = true;
+					break;
+				}
+				else found = false;
+			}
+			if (found == false)
+				cout << "No mechanics available at that time, try another time" << endl;
+		} while (found == false);
+	}
+	
+	//for loop to insesrt customers int the queue, use array to sort using sorting alg. insert array to queue
+	bool diff=false;
+	do {
+
+		for (int i = 0; i < numcust - 1; i++) {
+			diff = false;
+			for (int j = 0; j < numcust - i - 1; j++) {
+				if (custi[j] > custi[j + 1]) {
+					swap(custi[j], custi[j + 1]);
+					diff = true;
+				}
+			}
+		}
+	} while (diff == false);
+	queue<customer> line;
+	for (int i = 0; i < numcust; i++)
+		line.push(cust[i]);
+	line.printall();
+
+	delete[] mech;
+	delete[]custi;
+}
