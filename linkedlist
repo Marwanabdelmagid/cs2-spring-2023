@@ -1,0 +1,114 @@
+
+#include <iostream>
+#include<algorithm>
+
+using namespace std;
+class node {
+public:
+    int x;
+    int count;
+    node* next;
+   
+    node()
+    {
+        x = 0;
+        count = 0;
+        next = NULL;
+    }
+
+    node(int x1)
+    {
+        this->x = x1;
+        this->next = NULL;
+        count = 1;
+    }
+    node(int x1, int c) {
+        x = x1;
+        count = c;
+        next = nullptr;
+    }
+};
+
+class linkedlist {
+private:
+    node* head;
+public:
+    linkedlist() {
+        head = NULL;
+    }
+    
+   
+    void add_node(node*& header,int x1) {
+
+        //found this add node on geeks for geeks 
+            node* n = new node(x1);
+            node* temp = head;
+            n->next = header;
+            header = n;
+            
+    }
+    void add_node(int x1) {
+        //I made this function
+        if (head == NULL) {
+            head = new node(x1);
+            return;
+        }
+        else {
+            node* temp = head;
+            while (temp->next != NULL) {
+                temp = temp->next;
+            }
+            temp->next = new node(x1);
+            return;
+        }
+    }
+
+    void add_node(int x1, int count) {
+        node* new_node = new node(x1, count);
+        new_node->next = head;
+        head = new_node;
+    }
+
+    void remove_node() {
+        //removes last node 
+        node* temp = head;
+        node* prev = NULL;
+        while (temp != NULL) {
+            if (temp->next == NULL) {
+                if (prev == NULL) {
+                    head = NULL;
+                }
+                else {
+                    prev->next = NULL;
+                }
+                delete temp;
+                return;
+            }
+            prev = temp;
+            temp = temp->next;
+        }
+    }
+
+    void print_all(){
+    
+        node* temp = head;
+
+        while (temp != NULL) {
+            cout << temp->x << " , ";
+            temp = temp->next;
+        }
+        cout << endl;
+        return;
+    }
+    int sum_all() {
+        int sum = 0;
+        node* temp = head;
+        while (temp != NULL) {
+            sum += temp->x;
+            temp = temp->next;
+        }
+        return sum;
+    }
+    
+
+};
